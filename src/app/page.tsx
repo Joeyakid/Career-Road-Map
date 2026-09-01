@@ -1,65 +1,47 @@
-import Image from "next/image";
+"use client";
+
+import { motion } from "framer-motion";
+import { ArrowRight, CheckCircle2, ChevronRight, Code2, Compass, Database, Globe2, GraduationCap, Layers3, Menu, Play, Quote, Rocket, Sparkles, X } from "lucide-react";
+import { useState } from "react";
+import type { LucideIcon } from "lucide-react";
+
+const features: [LucideIcon, string, string][] = [
+  [Compass, "Find your direction", "Explore high-growth careers and discover the path that fits your strengths."],
+  [Layers3, "Learn with a plan", "Follow expert-designed roadmaps that turn ambitious goals into clear next steps."],
+  [Rocket, "Build proof of skill", "Create portfolio-ready projects that show employers what you can do."],
+  [Sparkles, "See your momentum", "Stay motivated with clear progress, streaks, milestones, and achievements."],
+];
+
+const careers: [LucideIcon, string, string, string, string][] = [
+  [Code2, "Software Engineering", "Build the products people rely on every day.", "12 roadmaps", "blue"],
+  [Globe2, "Product Design", "Shape thoughtful experiences from idea to launch.", "8 roadmaps", "teal"],
+  [Database, "Data & AI", "Turn complex information into confident decisions.", "10 roadmaps", "purple"],
+];
+
+const faqs = [
+  ["Is PathForge free to use?", "Yes. You can explore careers and begin your first roadmap for free. PathForge Pro adds advanced projects, deeper insights, and personalised support."],
+  ["Do I need prior experience in tech?", "No. Every roadmap starts with the essentials and helps you build up practical skill at your own pace."],
+  ["How are the roadmaps created?", "Our learning paths are shaped by working practitioners, hiring signals, and the practical skills needed to do the job."],
+  ["Can I switch career paths later?", "Absolutely. Your progress stays with you, and you can explore or begin another career track whenever you are ready."],
+];
 
 export default function Home() {
-  return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
+  return <main className="landing">
+    <header className="site-header"><a className="logo" href="#top"><span><GraduationCap size={19}/></span>PathForge</a><nav className={menuOpen ? "nav-open" : ""}><a href="#features">How it works</a><a href="#careers">Career paths</a><a href="#roadmaps">Roadmaps</a><a href="#stories">Stories</a><a className="mobile-login" href="#login">Log in</a></nav><div className="header-actions"><a className="login" href="#login">Log in</a><a className="header-cta" href="#start">Start learning <ArrowRight size={16}/></a></div><button className="nav-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle navigation">{menuOpen ? <X/> : <Menu/>}</button></header>
+    <section className="hero" id="top"><div className="aurora aurora-one"/><div className="aurora aurora-two"/><div className="dot-field"/><motion.div className="hero-copy" initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{duration:.55}}><span className="eyebrow"><Sparkles size={14}/> THE CAREER OPERATING SYSTEM</span><h1>Build Your Tech Career <em>With Confidence</em></h1><p>Choose a career path, follow a structured roadmap, complete projects, and track your progress from beginner to professional.</p><div className="hero-actions" id="start"><a className="primary-cta" href="#careers">Start Learning <ArrowRight size={18}/></a><a className="secondary-cta" href="#careers"><Play size={15} fill="currentColor"/> Explore careers</a></div><div className="hero-proof"><div className="avatar-group"><i>J</i><i>M</i><i>S</i><i>+</i></div><span><b>Join 25,000+ learners</b><small>building the future, one skill at a time</small></span></div></motion.div><motion.div className="hero-visual" initial={{opacity:0,scale:.92,y:24}} animate={{opacity:1,scale:1,y:0}} transition={{duration:.65,delay:.13}}><div className="orbit orbit-one"/><div className="orbit orbit-two"/><div className="floating-note note-one"><CheckCircle2 size={16}/><span><b>Milestone reached!</b><small>7-day learning streak</small></span></div><div className="floating-note note-two"><span className="tiny-avatar">AM</span><span><b>New project unlocked</b><small>Build a portfolio website</small></span></div><div className="roadmap-window"><div className="window-top"><span/><span/><span/><b>My learning path</b><MoreDots/></div><div className="window-body"><div className="window-title"><span className="course-icon"><Code2 size={18}/></span><div><small>CAREER PATH</small><b>Frontend Developer</b></div><span className="progress-label">64%</span></div><div className="progress-bar"><i/></div>{["Web foundations", "JavaScript essentials", "React in practice", "Build your portfolio"].map((item,index)=><div className={`path-row ${index < 2 ? "finished" : index === 2 ? "active" : ""}`} key={item}><span>{index < 2 ? <CheckCircle2 size={15}/> : index + 1}</span><b>{item}</b><small>{index < 2 ? "Complete" : index === 2 ? "In progress" : "Up next"}</small></div>)}</div></div><div className="floating-spark"><Sparkles size={21}/></div></motion.div></section>
+    <section className="trusted"><p>TRUSTED BY LEARNERS ON THEIR WAY TO TEAMS AT</p><div><b>Vercel</b><b>stripe</b><b>Microsoft</b><b>Spotify</b><b>airbnb</b></div></section>
+    <section className="section features" id="features"><div className="section-intro"><span className="eyebrow">A CLEARER WAY FORWARD</span><h2>Everything you need to <em>move forward</em></h2><p>PathForge gives you structure, momentum, and the confidence to turn a career goal into a real-world skill set.</p></div><div className="feature-grid">{features.map(([Icon,title,text],index)=><motion.article className="feature-card" key={title as string} whileHover={{y:-6}} transition={{type:"spring",stiffness:300}}><span className={`feature-icon icon-${index}`}><Icon size={22}/></span><h3>{title}</h3><p>{text}</p><a href="#careers">Learn more <ChevronRight size={15}/></a></motion.article>)}</div></section>
+    <section className="section careers" id="careers"><div className="section-heading"><div><span className="eyebrow">EXPLORE WHAT&apos;S POSSIBLE</span><h2>A path for every <em>ambition</em></h2></div><a className="text-link" href="#all-careers">Explore all careers <ArrowRight size={16}/></a></div><div className="career-grid">{careers.map(([Icon,title,text,count,color])=><article className={`career-card ${color}`} key={title as string}><span className="career-icon"><Icon size={24}/></span><span className="career-count">{count}</span><h3>{title}</h3><p>{text}</p><a href="#roadmaps">Explore path <ArrowRight size={16}/></a></article>)}</div></section>
+    <section className="section roadmaps" id="roadmaps"><div className="roadmap-copy-section"><span className="eyebrow">DESIGNED FOR REAL PROGRESS</span><h2>From curious beginner to <em>confident builder</em></h2><p>Know exactly what to learn next. Each roadmap breaks a big career goal into practical skills, focused lessons, and portfolio projects.</p><ul>{["Expert-curated skill sequences", "Practical projects at every stage", "Progress that keeps you moving"].map(x=><li key={x}><CheckCircle2 size={18}/>{x}</li>)}</ul><a className="primary-cta small" href="#start">Find your roadmap <ArrowRight size={17}/></a></div><div className="roadmap-preview"><div className="preview-head"><span><Layers3 size={18}/> Product Designer Roadmap</span><b>38% complete</b></div>{[["1","Design principles","Done"],["2","UX research fundamentals","Done"],["3","Figma essentials","Current"],["4","Design a mobile experience","Next"]].map(([number,label,status])=><div className={`preview-row ${status.toLowerCase()}`} key={label}><span>{status === "Done" ? <CheckCircle2 size={16}/> : number}</span><div><b>{label}</b><small>{status === "Done" ? "Completed" : status === "Current" ? "2 lessons remaining" : "Unlocks next"}</small></div>{status === "Current" && <button>Continue <ArrowRight size={14}/></button>}</div>)}<div className="preview-foot"><span>12 skills mastered</span><span>3 projects completed</span></div></div></section>
+    <section className="section stories" id="stories"><div className="section-intro centered"><span className="eyebrow">BUILT WITH LEARNERS</span><h2>Real people. <em>Real momentum.</em></h2></div><div className="testimonial-grid"><Testimonial quote="PathForge gave me the clarity I was missing. I went from feeling overwhelmed to landing my first junior developer role in six months." name="Maya Chen" role="Junior Frontend Developer" initials="MC"/><Testimonial quote="The projects made the difference. I had something tangible to show in interviews — not just courses listed on my CV." name="James Wilson" role="Product Designer at Nova" initials="JW"/><Testimonial quote="It feels like having a mentor who always knows what I should work on next. My confidence has completely changed." name="Tomi Adeyemi" role="Data Analyst" initials="TA"/></div></section>
+    <section className="why-section"><div><span className="eyebrow">WHY PATHFORGE</span><h2>Ambition deserves a <em>better system.</em></h2></div><div className="why-points"><p><b>Built for the real journey</b><span>More than content — a focused system for building a career you&apos;re proud of.</span></p><p><b>Structure without rigidity</b><span>Move with purpose, at a pace that works for your life.</span></p><p><b>Progress you can feel</b><span>Small wins compound into the confidence to take your next big step.</span></p></div></section>
+    <section className="section faq"><div className="section-intro"><span className="eyebrow">QUESTIONS, ANSWERED</span><h2>Everything you need to <em>know</em></h2></div><div className="faq-list">{faqs.map(([question,answer], index)=><article className="faq-item" key={question}><button onClick={()=>setOpenFaq(openFaq===index?null:index)} aria-expanded={openFaq===index}><span>{question}</span><span className="faq-symbol">{openFaq===index ? "−" : "+"}</span></button>{openFaq===index && <motion.p initial={{opacity:0,height:0}} animate={{opacity:1,height:"auto"}}>{answer}</motion.p>}</article>)}</div></section>
+    <section className="final-cta"><div className="cta-glow"/><span className="eyebrow">YOUR FUTURE STARTS HERE</span><h2>Ready to build a career you <em>believe in?</em></h2><p>Join thousands of learners turning their potential into progress.</p><a className="primary-cta light" href="#start">Start learning for free <ArrowRight size={18}/></a><small>No credit card required · Start in minutes</small></section>
+    <footer><a className="logo" href="#top"><span><GraduationCap size={19}/></span>PathForge</a><p>Build the skills. Create the proof. Shape your future.</p><div><a href="#features">How it works</a><a href="#careers">Careers</a><a href="#roadmaps">Roadmaps</a><a href="#faq">FAQ</a></div><small>© 2026 PathForge. Made for your next chapter.</small></footer>
+  </main>;
 }
+
+function MoreDots() { return <span className="more-dots">•••</span>; }
+function Testimonial({quote,name,role,initials}:{quote:string;name:string;role:string;initials:string}){return <article className="testimonial"><Quote size={22}/><p>“{quote}”</p><div><span className="story-avatar">{initials}</span><span><b>{name}</b><small>{role}</small></span><span className="stars">★★★★★</span></div></article>}
