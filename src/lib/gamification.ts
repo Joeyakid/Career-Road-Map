@@ -1,3 +1,5 @@
+import { writeStoredValue } from "@/lib/storage";
+
 export type AchievementId = "beginner-developer" | "roadmap-explorer" | "project-builder";
 
 export type GamificationState = {
@@ -15,7 +17,13 @@ export const achievements: { id: AchievementId; title: string; description: stri
 ];
 
 const storageKey = "pathforge-gamification";
-const initial: GamificationState = { xp: 240, completedSkills: ["design-fundamentals", "ux-research"], completedRoadmapStages: 0, completedProjects: [], unlockedAchievements: [] };
+const initial: GamificationState = { xp: 0, completedSkills: [], completedRoadmapStages: 0, completedProjects: [], unlockedAchievements: [] };
+
+export function initializeGamification() {
+  const state = { ...initial, completedSkills: [], completedProjects: [], unlockedAchievements: [] };
+  writeStoredValue(storageKey, state);
+  return state;
+}
 
 function evaluate(state: GamificationState): AchievementId[] {
   return achievements.filter(({ id }) => id === "beginner-developer" ? state.completedSkills.length >= 3 : id === "roadmap-explorer" ? state.completedRoadmapStages >= 1 : state.completedProjects.length >= 1).map(({ id }) => id);

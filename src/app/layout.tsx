@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { ThemeProvider, ThemeToggle } from "@/components/ui/theme-provider";
+import AuthGate from "@/components/auth/auth-gate";
 import "./globals.css";
+import "./career-flow.css";
+import "./account.css";
 
 export const metadata: Metadata = {
   title: "PathForge — Build your career path",
@@ -14,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full antialiased" suppressHydrationWarning>
-      <body className="min-h-full flex flex-col"><ThemeProvider>{children}<ThemeToggle /></ThemeProvider></body>
+      <body className="min-h-full flex flex-col"><ThemeProvider><AuthGate>{children}</AuthGate><ThemeToggle /></ThemeProvider></body>
     </html>
   );
 }
