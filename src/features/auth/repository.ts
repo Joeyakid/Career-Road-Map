@@ -1,6 +1,6 @@
-import type { LearnerOnboarding } from "@/types/domain";
+import type { LearnerOnboarding, UserProfile } from "@/types/domain";
 
-export type CurrentUser = { id: string; name: string; email: string; onboarding?: LearnerOnboarding };
+export type CurrentUser = UserProfile & { onboarding?: LearnerOnboarding };
 
 export interface AuthRepository {
   getCurrentUser(): Promise<CurrentUser | null>;

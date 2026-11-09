@@ -7,11 +7,15 @@ import type { CareerPath } from "@/types/career";
 import { CareerIcon } from "@/components/careers/career-icons";
 import { readStoredValue, writeStoredValue } from "@/lib/storage";
 import type { LearnerProgress } from "@/features/progress/repository";
+import { useAuthStore } from "@/store/use-auth-store";
+import { getGamificationState, recordSkillCompletion } from "@/lib/gamification";
 
 export default function CareerRoadmap({ career }: { career: CareerPath }) {
   const [completedIds, setCompletedIds] = useState<string[]>([]);
   const [ready, setReady] = useState(false);
   const storageKey = `pathforge-progress-${career.id}`;
+  const syncLearningProgress = useAuthStore((state) => state.syncLearningProgress);
+  const syncAchievements = useAuthStore((state) => state.syncAchievements);
 
   useEffect(() => {
     const saved = readStoredValue<{ completedSkillIds?: string[] }>(storageKey, {});
@@ -36,12 +40,17 @@ export default function CareerRoadmap({ career }: { career: CareerPath }) {
     const updatedIds = [...new Set([...completedIds, skillId])];
     setCompletedIds(updatedIds);
     const savedProgress = readStoredValue<Partial<LearnerProgress>>(storageKey, {});
-    writeStoredValue(storageKey, {
+    const updatedProgress: LearnerProgress = {
       completedSkillIds: updatedIds,
       completedProjectIds: savedProgress.completedProjectIds ?? [],
       xp: savedProgress.xp ?? 0,
-    });
+    };
+    writeStoredValue(storageKey, updatedProgress);
     localStorage.setItem(`pathforge-skill-${skillId}`, "complete");
+    syncLearningProgress(career, updatedProgress);
+    recordSkillCompletion(skillId);
+    const gamificationState = getGamificationState();
+    syncAchievements(gamificationState.unlockedAchievements, gamificationState.xp);
   }
 
   return <main className="career-roadmap-page">

@@ -4,6 +4,7 @@ import AuthGate from "@/components/auth/auth-gate";
 import "./globals.css";
 import "./career-flow.css";
 import "./account.css";
+import "./auth.css";
 
 export const metadata: Metadata = {
   title: "PathForge — Build your career path",

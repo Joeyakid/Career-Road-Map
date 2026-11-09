@@ -11,7 +11,8 @@ export default function SettingsPage() {
   const router = useRouter();
   const user = useAuthStore((state) => state.currentUser);
   const logout = useAuthStore((state) => state.logout);
-  const careerId = useAppStore((state) => state.activeCareerId);
+  const activeCareerId = useAppStore((state) => state.activeCareerId);
+  const careerId = user?.selectedCareer ?? activeCareerId;
   const career = careerPathById.get(careerId ?? "");
 
   function handleLogout() {

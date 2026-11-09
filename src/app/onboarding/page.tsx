@@ -28,6 +28,7 @@ export default function OnboardingPage() {
   const router = useRouter();
   const user = useAuthStore((state) => state.currentUser);
   const saveOnboarding = useAuthStore((state) => state.saveOnboarding);
+  const syncLearningProgress = useAuthStore((state) => state.syncLearningProgress);
   const setActiveCareerId = useAppStore((state) => state.setActiveCareerId);
   const [step, setStep] = useState(1);
   const [careerId, setCareerId] = useState<string | null>(null);
@@ -57,6 +58,8 @@ export default function OnboardingPage() {
       setActiveCareerId(careerId);
       const saved = saveOnboarding({ careerId, experienceLevel, weeklyCommitment, learningGoal });
       if (!saved) throw new Error("Your account could not be found.");
+      const career = careerPaths.find((item) => item.id === careerId);
+      if (career) syncLearningProgress(career, { completedSkillIds: [], completedProjectIds: [], xp: 0 });
       router.replace("/dashboard");
     } catch {
       setError("We couldn’t save your learning plan. Check your browser storage and try again.");
